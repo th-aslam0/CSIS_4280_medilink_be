@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.medilinkbe.model.Doctor;
-import com.example.medilinkbe.model.DoctorMG;
 import com.example.medilinkbe.repository.DoctorRepository;
 import com.example.medilinkbe.service.DoctorService;
 
@@ -29,9 +28,9 @@ public class DoctorController {
 		
 	@GetMapping("/doctors")
 	public ResponseEntity<?> listDoctors() {
-		List<DoctorMG> doctors = doctorService.listDoctors();
+		List<Doctor> doctors = doctorService.listDoctors();
 		if(doctors.size()>0) {
-			return new ResponseEntity<List<DoctorMG>>(doctors,HttpStatus.OK);
+			return new ResponseEntity<List<Doctor>>(doctors,HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("No doctors found",HttpStatus.NOT_FOUND);
 		}
@@ -40,20 +39,20 @@ public class DoctorController {
 	// READ ONE
     @GetMapping("/{id}")
     public ResponseEntity<?> getDoctorById(@PathVariable String id) {
-        DoctorMG doctor = doctorService.getDoctorById(id);
+        Doctor doctor = doctorService.getDoctorById(id);
         
         if(doctor != null) {
-        	return new ResponseEntity<DoctorMG>(doctor,HttpStatus.OK);
+        	return new ResponseEntity<Doctor>(doctor,HttpStatus.OK);
         } else {
         	return new ResponseEntity<>("No doctors found",HttpStatus.NOT_FOUND);
         }
     }	
 
 	@PostMapping("/doctors")
-	public ResponseEntity<?> createDoctor(@RequestBody DoctorMG doctor) {
+	public ResponseEntity<?> createDoctor(@RequestBody Doctor doctor) {
 		try {
 			doctorService.addDoctor(doctor);
-			return new ResponseEntity<DoctorMG>(doctor, HttpStatus.OK);
+			return new ResponseEntity<Doctor>(doctor, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -66,7 +65,7 @@ public class DoctorController {
 	
 	
 	@PutMapping("/doctors/{id}")
-	public void updateDoctor(@PathVariable String id, @RequestBody DoctorMG doctor) {
+	public void updateDoctor(@PathVariable String id, @RequestBody Doctor doctor) {
 		doctorService.updateDoctor(id,doctor);
 	}
 	
