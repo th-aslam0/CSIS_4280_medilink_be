@@ -26,6 +26,8 @@ public class Doctor {
 	private String consultationFee;
 	private String image;
 	
+	
+	
 		
 	public Doctor(String id, String firstName, String lastName, String specialization, String email,
 			String phoneNumber, OfficeAddress officeAddress, List<Availability> availability, String consultationFee,

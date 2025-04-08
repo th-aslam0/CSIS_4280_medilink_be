@@ -9,17 +9,20 @@ public class Appointment {
 	private String id;
 	private String patientId;
 	private String doctorId;
-	private String date;
+	private String date; //yyyy-mm-dd
 	private String patientDocu;
 	private String doctorDocu;
 	private String status;
+	private String fee;
+	private String prescription;
 	
 	public Appointment() {
 		super();
 	}
 	
-	public Appointment(String id, String patientId, String doctorId, String date, String patientDocu,
-			String doctorDocu, String status) {
+	
+	public Appointment(String id, String patientId, String doctorId, String date, String patientDocu, String doctorDocu,
+			String status, String fee, String prescription) {
 		super();
 		this.id = id;
 		this.patientId = patientId;
@@ -28,7 +31,11 @@ public class Appointment {
 		this.patientDocu = patientDocu;
 		this.doctorDocu = doctorDocu;
 		this.status = status;
+		this.fee = fee;
+		this.prescription = prescription;
 	}
+
+
 
 	public String getId() {
 		return id;
@@ -74,6 +81,27 @@ public class Appointment {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+
+	public String getFee() {
+		return fee;
+	}
+
+
+	public void setFee(String fee) {
+		this.fee = fee;
+	}
+
+
+	public String getPrescription() {
+		return prescription;
+	}
+
+
+	public void setPrescription(String prescription) {
+		this.prescription = prescription;
+	}
+	
 	
 	
 
