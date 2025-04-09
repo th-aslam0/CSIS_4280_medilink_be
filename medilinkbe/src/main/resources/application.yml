@@ -1,9 +1,0 @@
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          audiences:
-          - medilink
-          - medilink-ui
-          issuer-uri: http://127.0.0.1:9000

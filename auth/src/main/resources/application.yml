@@ -1,0 +1,46 @@
+server:
+  port: 9000
+
+logging:
+  level:
+    org.springframework.security: trace
+
+spring:
+  security:
+    user:
+      name: "user"
+      password: "password"
+    oauth2:
+      authorizationserver:
+        client:
+          basic-client:
+            registration:
+              client-id: "football"
+              client-secret: "{noop}SuperSecret"
+              client-authentication-methods:
+                - "client_secret_post"
+              authorization-grant-types:
+                - "client_credentials"
+              scopes:
+                - "football:read"
+                - "football:admin"
+          football-ui:
+            registration:
+              client-id: "football-ui"
+              client-secret: "{noop}SuperSuperSecret"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+                - "client_credentials"
+              redirect-uris:
+                - "com.wongi5.demo:/oauthredirect"
+              scopes:
+                - "openid"
+                - "profile"
+                - "football:read"
+                - "football:admin"
+            require-authorization-consent: true
+
+
