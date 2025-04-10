@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.example.medilinkbe.exception.AlreadyExistsException;
 import com.example.medilinkbe.exception.NotFoundException;
 import com.example.medilinkbe.model.Doctor;
-import com.example.medilinkbe.model.DoctorMG;
 import com.example.medilinkbe.repository.DoctorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,17 +22,17 @@ public class DoctorService {
 	@Autowired
 	private DoctorRepository doctorRepo;
 	
-	public List<DoctorMG> listDoctors() {
+	public List<Doctor> listDoctors() {
 		return doctorRepo.findAll();
 	}	
 	
-    public DoctorMG getDoctorById(String id) {
+    public Doctor getDoctorById(String id) {
         return doctorRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Doctor not found with id " + id));
     }
     
-    public DoctorMG updateDoctor( String id,  DoctorMG updatedDoctor) {
-        DoctorMG existing = doctorRepo.findById(id)
+    public Doctor updateDoctor( String id,  Doctor updatedDoctor) {
+        Doctor existing = doctorRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Doctor not found with id " + id));
 
         existing = updatedDoctor;
@@ -42,7 +41,7 @@ public class DoctorService {
     }	
 	
 
-	public DoctorMG addDoctor(DoctorMG doctor) {
+	public Doctor addDoctor(Doctor doctor) {
 		return doctorRepo.save(doctor);
 	}
 	
