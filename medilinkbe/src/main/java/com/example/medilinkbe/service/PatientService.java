@@ -2,6 +2,8 @@ package com.example.medilinkbe.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.medilinkbe.exception.PatientCollectionException;
 import com.example.medilinkbe.model.PatientDTO;
 
@@ -18,4 +20,9 @@ public interface PatientService {
 	public void updatePatient(String id, PatientDTO patient) throws PatientCollectionException;
 	
 	public void deletePatientById(String id) throws PatientCollectionException;
+
+	public PatientDTO uploadImage(String id, MultipartFile file) throws Exception;
+
+	public void deleteImage(String patientId, String imageId) throws PatientCollectionException;
+
 }
