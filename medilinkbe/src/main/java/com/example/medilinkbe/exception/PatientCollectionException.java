@@ -2,9 +2,6 @@ package com.example.medilinkbe.exception;
 
 public class PatientCollectionException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public PatientCollectionException(String message) {
