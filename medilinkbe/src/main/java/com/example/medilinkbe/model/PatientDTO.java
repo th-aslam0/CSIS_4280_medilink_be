@@ -8,79 +8,137 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import jakarta.validation.constraints.NotNull;
 
-
 @Document(collection="patients")
 public class PatientDTO {
 
-		@Id
-	 private String id;
-	 
-	 @NotNull(message="name cannot be null")
-	 private String name;
-	 
-	 @NotNull(message="email cannot be null")
-	 private String email;
-	 
-	 @NotNull(message="phone cannot be null")
-	 private String phone;
+    @Id
+    private String id;
 
-	 private List<ImageData> images = new ArrayList<>(); 
+    @NotNull(message="first name cannot be null")
+    private String firstName;
 
-	 public PatientDTO() {
-		super();
-	}
+    @NotNull(message="last name cannot be null")
+    private String lastName;
 
-	public PatientDTO(String id, @NotNull(message = "name cannot be null") String name,
-			@NotNull(message = "email cannot be null") String email,
-			@NotNull(message = "phone cannot be null") String phone) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
-	}
+    @NotNull(message="email cannot be null")
+    private String email;
 
-	public String getId() {
-		return id;
-	}
+    @NotNull(message="home address cannot be null")
+    private String homeAddress;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @NotNull(message="date of birth cannot be null")
+    private String dateOfBirth; // or LocalDate if preferred
 
-	public String getName() {
-		return name;
-	}
+    @NotNull(message="phone number cannot be null")
+    private String phoneNumber;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private String maritalStatus;
+    private String gender;
 
-	public String getEmail() {
-		return email;
-	}
+    private List<ImageData> images = new ArrayList<>();
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public PatientDTO() {
+        super();
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public PatientDTO(String id, 
+                      @NotNull(message="first name cannot be null") String firstName,
+                      @NotNull(message="last name cannot be null") String lastName,
+                      @NotNull(message="email cannot be null") String email,
+                      @NotNull(message="home address cannot be null") String homeAddress,
+                      @NotNull(message="date of birth cannot be null") String dateOfBirth,
+                      @NotNull(message="phone number cannot be null") String phoneNumber) {
+        super();
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.homeAddress = homeAddress;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getId() {
+        return id;
+    }
 
-	 public List<ImageData> getImages() {
-		 return images;
-	 }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	 public void setImages(List<ImageData> images) {
-		 this.images = images;
-	 }
+    public String getFirstName() {
+        return firstName;
+    }
 
-	 // Inner class to store image data
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public List<ImageData> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageData> images) {
+        this.images = images;
+    }
+
+    // Inner class to store image data
     public static class ImageData {
         private String url;       
         private String publicId;  
@@ -106,5 +164,4 @@ public class PatientDTO {
             this.publicId = publicId;
         }
     }
-	 
 }

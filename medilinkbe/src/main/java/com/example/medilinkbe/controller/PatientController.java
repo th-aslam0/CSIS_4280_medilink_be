@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.medilinkbe.exception.PatientCollectionException;
 import com.example.medilinkbe.model.PatientDTO;
-import com.example.medilinkbe.repository.PatientRepository;
+import com.example.medilinkbe.model.ApiResponse;
 import com.example.medilinkbe.service.PatientService;
 
 import jakarta.validation.ConstraintViolationException;
@@ -28,35 +28,37 @@ import jakarta.validation.ConstraintViolationException;
 public class PatientController {
 
 	@Autowired
-	private PatientRepository patientRepo;
-
-	@Autowired
 	private PatientService patientService;
 
 	@GetMapping("/patients")
 	public ResponseEntity<?> getAllPatients() {
 		List<PatientDTO> patients = patientService.getAllPatients();
-		return new ResponseEntity<>(patients, patients.size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+		if(patients.size() > 0) {
+			return new ResponseEntity<>(new ApiResponse<>(true, "Patients retrieved successfully", patients), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(new ApiResponse<>(false, "No patients found", patients), HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@PostMapping("/patients")
 	public ResponseEntity<?> createPatient(@RequestBody PatientDTO patient) {
 		try {
 			patientService.createPatient(patient);
-			return new ResponseEntity<PatientDTO>(patient, HttpStatus.OK);
+			return new ResponseEntity<>(new ApiResponse<>(true, "Patient created successfully", patient), HttpStatus.OK);
 		} catch (ConstraintViolationException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (PatientCollectionException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.CONFLICT);
 		}
 	}
 
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<?> getPatient(@PathVariable("id") String id) {
 		try {
-			return new ResponseEntity<>(patientService.getSinglePatient(id), HttpStatus.OK);
+			Object patient = patientService.getSinglePatient(id);
+			return new ResponseEntity<>(new ApiResponse<>(true, "Patient retrieved successfully", patient), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -64,11 +66,11 @@ public class PatientController {
 	public ResponseEntity<?> updateById(@PathVariable("id") String id, @RequestBody PatientDTO patient) {
 		try {
 			patientService.updatePatient(id, patient);
-			return new ResponseEntity<>("Update Patient with id " + id, HttpStatus.OK);
+			return new ResponseEntity<>(new ApiResponse<>(true, "Patient updated with id " + id, null), HttpStatus.OK);
 		} catch (ConstraintViolationException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (PatientCollectionException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -76,9 +78,9 @@ public class PatientController {
 	public ResponseEntity<?> deleteById(@PathVariable("id") String id) {
 		try {
 			patientService.deletePatientById(id);
-			return new ResponseEntity<>("Successfully deleted with id: " + id, HttpStatus.OK);
+			return new ResponseEntity<>(new ApiResponse<>(true, "Successfully deleted patient with id: " + id, null), HttpStatus.OK);
 		} catch (PatientCollectionException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -88,9 +90,9 @@ public class PatientController {
 			@RequestParam("file") MultipartFile file) {
 		try {
 			PatientDTO updatedPatient = patientService.uploadImage(id, file);
-			return new ResponseEntity<>(updatedPatient, HttpStatus.OK);
+			return new ResponseEntity<>(new ApiResponse<>(true, "Image uploaded successfully", updatedPatient), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -100,11 +102,11 @@ public class PatientController {
 	        @PathVariable("imageId") String imageId) {
 	    try {
 	        patientService.deleteImage(patientId, imageId);
-	        return new ResponseEntity<>("Image with ID " + imageId + " successfully deleted for patient with ID " + patientId, HttpStatus.OK);
+	        return new ResponseEntity<>(new ApiResponse<>(true, "Image with ID " + imageId + " deleted for patient with ID " + patientId, null), HttpStatus.OK);
 	    } catch (PatientCollectionException e) {
-	        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+	        return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
 	    } catch (Exception e) {
-	        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	        return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
 

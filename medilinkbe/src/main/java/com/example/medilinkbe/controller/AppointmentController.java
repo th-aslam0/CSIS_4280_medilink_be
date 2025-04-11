@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.medilinkbe.model.ApiResponse;
 import com.example.medilinkbe.model.Appointment;
+import com.example.medilinkbe.model.Doctor;
+import com.example.medilinkbe.model.PatientDTO;
 import com.example.medilinkbe.service.AppointmentService;
+import com.example.medilinkbe.service.DoctorService;
+import com.example.medilinkbe.service.EmailService;
+import com.example.medilinkbe.service.PatientService;
 
 @RequestMapping("/api/appointments")
 @RestController
@@ -23,6 +29,15 @@ public class AppointmentController {
 	
 	@Autowired
 	private AppointmentService appointmentService;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private PatientService patientService;
+
+    @Autowired
+    private EmailService emailService;
 	
 	// GET all appointments
     @GetMapping
@@ -67,9 +82,37 @@ public class AppointmentController {
     }
     
  // CREATE
-    @PostMapping
-    public ResponseEntity<Appointment> create(@RequestBody Appointment appointment) {
-        return new ResponseEntity<>(appointmentService.createAppointment(appointment), HttpStatus.CREATED);
+    @PostMapping("/book")
+    public ResponseEntity<?> create(@RequestBody Appointment appointment) {
+        try {
+            // Create the appointment
+            Appointment createdAppointment = appointmentService.createAppointment(appointment);
+
+            // Fetch patient details using patientId
+            String patientId = createdAppointment.getPatientId();
+            PatientDTO patient = patientService.getSinglePatient(patientId);
+
+            // Fetch doctor details using doctorId
+            String doctorId = createdAppointment.getDoctorId();
+            Doctor doctor = doctorService.getDoctorById(doctorId);
+
+            // Send confirmation email
+            String patientEmail = patient.getEmail();
+            String patientName = patient.getFirstName() + " " + patient.getLastName();
+            String doctorFirstName = doctor.getFirstName();
+            String subject = "Appointment Confirmation";
+            String body = "Dear " + patientName + ",\n\n" +
+                        "Your appointment with " + doctorFirstName +
+                        " on " + createdAppointment.getDate() +
+                        " has been successfully scheduled.\n\n" +
+                        "Thank you,\nMediLink Team";
+
+            emailService.sendConfirmationEmail(patientEmail, subject, body);
+
+            return new ResponseEntity<>(new ApiResponse<>(true, "Appointment created successfully", createdAppointment), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     
  // UPDATE
