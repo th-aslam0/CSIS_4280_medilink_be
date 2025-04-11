@@ -37,7 +37,7 @@ public class AppointmentController {
     
  // GET by patientId
     @GetMapping("/patient/{patientId}")
-    public ResponseEntity<?> getByPatientId(@PathVariable String patientId) {
+    public ResponseEntity<?> getByPatientId(@PathVariable("patientId") String patientId) {
         List<Appointment> appointments = appointmentService.getAppointmentByPatientId(patientId);
         if (!appointments.isEmpty()) {
             return new ResponseEntity<>(appointments, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class AppointmentController {
     }
     
     @GetMapping("/doctor/{doctorId}")
-    public ResponseEntity<?> getByDoctorId(@PathVariable String doctorId) {
+    public ResponseEntity<?> getByDoctorId(@PathVariable("doctorId") String doctorId) {
         List<Appointment> appointments = appointmentService.getAppointmentByDoctorId(doctorId);
         if (!appointments.isEmpty()) {
             return new ResponseEntity<>(appointments, HttpStatus.OK);
@@ -57,7 +57,7 @@ public class AppointmentController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id) {
+    public ResponseEntity<?> getById(@PathVariable("id") String id) {
         try {
             Appointment appointment = appointmentService.getAppointment(id);
             return new ResponseEntity<>(appointment, HttpStatus.OK);
@@ -74,7 +74,7 @@ public class AppointmentController {
     
  // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Appointment appointment) {
+    public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody Appointment appointment) {
         try {
             return new ResponseEntity<>(appointmentService.updateAppointment(id, appointment), HttpStatus.OK);
         } catch (RuntimeException e) {
@@ -84,7 +84,7 @@ public class AppointmentController {
     
  // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable String id) {
+    public ResponseEntity<String> delete(@PathVariable("id") String id) {
         try {
             appointmentService.deleteAppointment(id);
             return new ResponseEntity<>("Appointment with ID " + id + " deleted", HttpStatus.OK);

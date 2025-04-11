@@ -10,31 +10,30 @@ public class Appointment {
 	private String patientId;
 	private String doctorId;
 	private String date; //yyyy-mm-dd
-	private String patientDocu;
-	private String doctorDocu;
+	private String patientDesc;	
 	private String status;
 	private String fee;
 	private String prescription;
+	private String specialization;
 	
 	public Appointment() {
 		super();
 	}
 	
-	
-	public Appointment(String id, String patientId, String doctorId, String date, String patientDocu, String doctorDocu,
-			String status, String fee, String prescription) {
+
+	public Appointment(String id, String patientId, String doctorId, String date, String patientDesc, String status,
+			String fee, String prescription, String specialization) {
 		super();
 		this.id = id;
 		this.patientId = patientId;
 		this.doctorId = doctorId;
 		this.date = date;
-		this.patientDocu = patientDocu;
-		this.doctorDocu = doctorDocu;
+		this.patientDesc = patientDesc;
 		this.status = status;
 		this.fee = fee;
 		this.prescription = prescription;
+		this.specialization = specialization;
 	}
-
 
 
 	public String getId() {
@@ -61,19 +60,13 @@ public class Appointment {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getPatientDocu() {
-		return patientDocu;
+	public String getPatientDesc() {
+		return patientDesc;
 	}
-	public void setPatientDocu(String patientDocu) {
-		this.patientDocu = patientDocu;
+	public void setPatientDesc(String patientDocu) {
+		this.patientDesc = patientDocu;
 	}
-	public String getDoctorDocu() {
-		return doctorDocu;
-	}
-	public void setDoctorDocu(String doctorDocu) {
-		this.doctorDocu = doctorDocu;
-	}
-
+	
 	public String getStatus() {
 		return status;
 	}
@@ -100,6 +93,16 @@ public class Appointment {
 
 	public void setPrescription(String prescription) {
 		this.prescription = prescription;
+	}
+
+
+	public String getSpecialization() {
+		return specialization;
+	}
+
+
+	public void setSpecialization(String specialization) {
+		this.specialization = specialization;
 	}
 	
 	

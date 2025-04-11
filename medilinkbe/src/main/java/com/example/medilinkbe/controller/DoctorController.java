@@ -37,8 +37,8 @@ public class DoctorController {
 	}
 	
 	// READ ONE
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getDoctorById(@PathVariable String id) {
+    @GetMapping("/doctors/{id}")
+    public ResponseEntity<?> getDoctorById(@PathVariable("id") String id) {
         Doctor doctor = doctorService.getDoctorById(id);
         
         if(doctor != null) {
@@ -59,13 +59,13 @@ public class DoctorController {
 	}
 	
 	@DeleteMapping("doctors/{id}")
-	public void deleteDoctor(@PathVariable String id) {
+	public void deleteDoctor(@PathVariable("id") String id) {
 		doctorService.deleteDoctor(id);
 	}
 	
 	
 	@PutMapping("/doctors/{id}")
-	public void updateDoctor(@PathVariable String id, @RequestBody Doctor doctor) {
+	public void updateDoctor(@PathVariable("id") String id, @RequestBody Doctor doctor) {
 		doctorService.updateDoctor(id,doctor);
 	}
 	
