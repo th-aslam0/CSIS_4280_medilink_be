@@ -17,10 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.medilinkbe.exception.PatientCollectionException;
+import com.example.medilinkbe.model.Appointment;
 import com.example.medilinkbe.model.PatientDTO;
 import com.example.medilinkbe.model.ApiResponse;
 import com.example.medilinkbe.service.PatientService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.ConstraintViolationException;
 
 @RequestMapping("/api")
@@ -30,6 +36,16 @@ public class PatientController {
 	@Autowired
 	private PatientService patientService;
 
+	
+	@Operation(summary = "Get all patients")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully get a list of patients", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PatientDTO.class)) }),
+//			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", 
+//					content = @Content),
+			@ApiResponse(responseCode = "404", description = "Patients not found", 
+			content = @Content)
+			})
 	@GetMapping("/patients")
 	public ResponseEntity<?> getAllPatients() {
 		List<PatientDTO> patients = patientService.getAllPatients();
@@ -40,6 +56,16 @@ public class PatientController {
 		}
 	}
 
+	
+	@Operation(summary = "Create a new patient")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully created a new patient", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PatientDTO.class)) }),
+//			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", 
+//					content = @Content),
+//			@ApiResponse(responseCode = "404", description = "Appointment not found", 
+//			content = @Content)
+			})
 	@PostMapping("/patients")
 	public ResponseEntity<?> createPatient(@RequestBody PatientDTO patient) {
 		try {
@@ -52,6 +78,16 @@ public class PatientController {
 		}
 	}
 
+	
+	@Operation(summary = "Get a patient by Id")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully get a patient", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PatientDTO.class)) }),
+			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", 
+					content = @Content),
+			@ApiResponse(responseCode = "404", description = "Patient not found", 
+			content = @Content)
+			})
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<?> getPatient(@PathVariable("id") String id) {
 		try {
@@ -62,6 +98,16 @@ public class PatientController {
 		}
 	}
 
+	
+	@Operation(summary = "Update a patient by Id")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully updated a patient", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PatientDTO.class)) }),
+			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", 
+					content = @Content),
+			@ApiResponse(responseCode = "404", description = "Patient not found", 
+			content = @Content)
+			})
 	@PutMapping("/patients/{id}")
 	public ResponseEntity<?> updateById(@PathVariable("id") String id, @RequestBody PatientDTO patient) {
 		try {
@@ -74,6 +120,16 @@ public class PatientController {
 		}
 	}
 
+	
+	@Operation(summary = "Delete a patient by Id")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully deleted a patient", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = PatientDTO.class)) }),
+			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", 
+					content = @Content),
+			@ApiResponse(responseCode = "404", description = "Patient not found", 
+			content = @Content)
+			})
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable("id") String id) {
 		try {
