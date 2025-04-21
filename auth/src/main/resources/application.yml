@@ -6,10 +6,13 @@ logging:
     org.springframework.security: trace
 
 spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://tamoorhaideraslam346:eCL47wcg1WOZ2x4o@cluster0.nhgq2i6.mongodb.net/medilinkDB?retryWrites=true&w=majority&appName=Cluster0
   security:
-    user:
-      name: "user"
-      password: "password"
+#    user:
+#      name: "user"
+#      password: "password"
     oauth2:
       authorizationserver:
         client:
