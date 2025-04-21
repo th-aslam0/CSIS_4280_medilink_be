@@ -1,0 +1,8 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          audiences:
+          - medilink-ui
+          issuer-uri: http://192.168.56.1:9000
