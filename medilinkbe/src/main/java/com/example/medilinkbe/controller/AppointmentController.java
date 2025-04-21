@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.medilinkbe.model.ApiResponse;
+import com.example.medilinkbe.model.CustomApiResponse;
 import com.example.medilinkbe.model.Appointment;
 import com.example.medilinkbe.model.Doctor;
 import com.example.medilinkbe.model.PatientDTO;
@@ -124,6 +124,15 @@ public class AppointmentController {
     }
     
  // CREATE
+    @Operation(summary = "Create a new appointment")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully created an appoinment", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = Appointment.class)) }),
+//			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", 
+//					content = @Content),
+//			@ApiResponse(responseCode = "404", description = "Appointment not found", 
+//			content = @Content)
+    })
     @PostMapping("/book")
     public ResponseEntity<?> create(@RequestBody Appointment appointment) {
         try {
@@ -151,24 +160,10 @@ public class AppointmentController {
 
             emailService.sendConfirmationEmail(patientEmail, subject, body);
 
-            return new ResponseEntity<>(new ApiResponse<>(true, "Appointment created successfully", createdAppointment), HttpStatus.CREATED);
+            return new ResponseEntity<>(new CustomApiResponse<>(true, "Appointment created successfully", createdAppointment), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(new ApiResponse<>(false, e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CustomApiResponse<>(false, e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-	
-    @Operation(summary = "Create a new appointment")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Successfully created an appoinment", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = Appointment.class)) }),
-//			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", 
-//					content = @Content),
-//			@ApiResponse(responseCode = "404", description = "Appointment not found", 
-//			content = @Content)
-			})
-    @PostMapping
-    public ResponseEntity<Appointment> create(@RequestBody Appointment appointment) {
-        return new ResponseEntity<>(appointmentService.createAppointment(appointment), HttpStatus.CREATED);
     }
     
  // UPDATE
